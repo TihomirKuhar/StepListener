@@ -178,25 +178,10 @@ public class MyService extends Service implements SensorEventListener, StepListe
         if(!beginDate.equals(endDate)){
 
             generateNotification("In Last 24hrs you took: "+numSteps+" steps!",numKilo+" km covered!");
-            launchCalendar();
+
             resetCounters();
+
         }
     }
-    //method used for launching Calendar app with daily Step values updated to be written in the app
-    public void launchCalendar(){
-        //new instance of Calendar
-        Calendar cal = new GregorianCalendar();
-        cal.setTime(new Date());
-        cal.add(Calendar.DATE, -1);
 
-        Intent intent = new Intent(Intent.ACTION_INSERT);
-        intent.setData(CalendarContract.Events.CONTENT_URI);
-        intent.putExtra(CalendarContract.Events.TITLE, "Step Listener, Todays update");
-        intent.putExtra(CalendarContract.Events.DESCRIPTION, "Today you took "+numSteps+" steps!");
-        intent.putExtra(CalendarContract.Events.ALL_DAY, false);
-        intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME,cal.getTime().getTime());
-        intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME,cal.getTime().getTime() + 600000);
-
-        startActivity(intent);
-    }
 }

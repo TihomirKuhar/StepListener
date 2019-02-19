@@ -7,6 +7,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.provider.CalendarContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -15,7 +16,11 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -30,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private TextView Kilometer;//Text view where number of kilometers will be displayed
     private boolean firstStart;//helper used in on start to display empty string on Steps and Kilometers
     private boolean sensorOn=false;//helper to track sensor activity
+    private String beginDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());//will store the date aplication is first started
 
 
 
@@ -103,8 +109,36 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             numberKilo = MyService.getNumKilo();
             displayStepsKilometers(numberSteps, numberKilo);
         }
+        checkCalendar();
 
     }
+    //checking to see if the date of the last calendar update is the same as current
+    private void checkCalendar() {
+        String endDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+        if(!beginDate.equals(endDate)){
+            launchCalendar();
+        }
+    }
+    //launching new calendar intent and reseting the date
+    public void launchCalendar(){
+        //reseting begin date
+        beginDate=new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+        //new instance of Calendar
+        Calendar cal = new GregorianCalendar();
+        cal.setTime(new Date());//current system time
+        cal.add(Calendar.DATE, -1);//day -1 since we are updating at 00:00 next day
+        String numSteps=""+numberSteps;
+        Intent intent = new Intent(Intent.ACTION_INSERT);
+        intent.setData(CalendarContract.Events.CONTENT_URI);
+        intent.putExtra(CalendarContract.Events.TITLE, "Step Listener, Todays update");
+        intent.putExtra(CalendarContract.Events.DESCRIPTION, "Today you took "+numSteps+" steps!");
+        intent.putExtra(CalendarContract.Events.ALL_DAY, false);
+        intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME,cal.getTime().getTime());
+        intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME,cal.getTime().getTime() + 600000);
+
+        startActivity(intent);
+    }
+
     //overriding on stop in order to unregister sensor while app is not being used
     @Override
     protected void onStop() {
@@ -140,4 +174,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         numberKilo=MyService.getNumKilo();
         displayStepsKilometers(numberSteps,numberKilo);
     }
+
+
 }
