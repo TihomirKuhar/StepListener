@@ -2,28 +2,22 @@
 
 StepListener is Android application for counting steps which uses accelerometer to detect users movement.
 
-<div class="grid-container" style="width:50%">
-  <div class="grid-item"><img src="/img/StepListener-installed.png"></div>
-  <div class="grid-item"><img src="/img/StepListener-home.png"></div>
-  <div class="grid-item"><img src="/img/StepListener-running.png"></div>
-  <div class="grid-item"><img src="/img/StepListener-drawer.png"></div>
-  <div class="grid-item"><img src="/img/StepListener-notif1.png"></div>
-  <div class="grid-item"><img src="/img/StepListener-notif2.png"></div>
-  <div class="grid-item"><img src="/img/StepListener-callendar.png"></div>
-</div>
 <table style="width:100%">
-  <caption>Monthly savings</caption>
+  <caption>App gallery</caption>
   <tr>
-    <th>Month</th>
-    <th>Savings</th>
+    <th><img src="/img/StepListener-installed.png"></th>
+    <th><img src="/img/StepListener-home.png"></th>
   </tr>
   <tr>
-    <td>January</td>
-    <td>$100</td>
+    <td><img src="/img/StepListener-running.png"></td>
+    <td><img src="/img/StepListener-drawer.png"></td>
   </tr>
   <tr>
-    <td>February</td>
-    <td>$50</td>
+    <td><img src="/img/StepListener-notif1.png"></td>
+    <td><img src="/img/StepListener-notif2.png"></td>
+  </tr>
+  <tr>
+    <td><img src="/img/StepListener-callendar.png"></td>
   </tr>
 </table>
 
